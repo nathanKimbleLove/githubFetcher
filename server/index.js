@@ -1,21 +1,32 @@
 const express = require('express');
 let app = express();
+let data = require('../data.json');
+let db = require('../database/');
+let getReposByUsername = require('../helpers/github.js').getReposByUsername;
 
-// TODO - your code here!
-// Set up static file service for files in the `client/dist` directory.
-// Webpack is configured to generate files in that directory and
-// this server must serve those files when requested.
+
+app.use(express.json())
+app.use(express.static('client/dist'));
 
 app.post('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
+  getReposByUsername(req.body.term)
+  .then(results => {
+    return db.save(results.data, req.body.term);
+  })
+  .then(res => {
+    return db.sortBy();
+  })
+  .then(data => {
+    console.log(data);
+    res.send(JSON.stringify(data))
+  });
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
+
+  db.sortBy()
+  .then(data => res.send(JSON.stringify(data)));
+
 });
 
 let port = 1128;
