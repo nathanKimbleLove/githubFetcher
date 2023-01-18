@@ -2,7 +2,7 @@
   "name": "github-fetcher-fullstack-v2",
   "version": "1.0.0",
   "repository": {
-    "url": "git+https://nathankimblelove.github.io/githubFetcher/"
+    "url": "git+https://nathanKimbleLove.github.io/githubFetcher/"
   },
   "description": "",
   "main": "index.js",
